@@ -1,0 +1,7 @@
+This is an example of how SQLite can be used inside a mobile application (for IOS and Android) created using the Ionic framework. The SQLite community plugin is used to work with a local SQLite database.
+
+Some important notices
+- This app uses Angular 20, which is not the most recent version. Migrating to the most recent Angular version using the VSCode Webnative extention caused some dependency problems.
+- The ionic cap add ios and ionic cap add android commands did not recognize the capacitor.config.ts configuration, so a JSON file is created instead.
+The .ts file is keeped for reference purposes.
+- The NPM package @capacitor-community/sqlite is used to work with SQLite.
