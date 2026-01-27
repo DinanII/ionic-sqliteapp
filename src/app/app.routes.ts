@@ -11,7 +11,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'details',
+    path: 'product/:id',
     loadComponent: () => import('./pages/details/details.page').then( m => m.DetailsPage)
   },
 ];
