@@ -1,0 +1,11 @@
+{
+  "appId": "com.example.app",
+  "appName": "My Capacitor App",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "server": {
+    "hostname": "localhost",
+    "androidScheme": "https",
+    "iosScheme": "https"
+  }
+}
