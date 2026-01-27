@@ -8,3 +8,6 @@ The .ts file is keeped for reference purposes.
 - After initializing the project, I had to execute npm install @capacitor/ios and npm install @capacitor/android to create the appropiate IOS and Android projects.
 This project is based on https://devdactic.com/sqlite-ionic-app-with-capacitor.
 To turn off the opt-out telemetry program: npx cap telemetry off
+This app does not have a web implementation, meaning a web browser can not be used to run the SQLite capabilities. You have to program your alternative yourself, with I.E. localstorage or the secure device string storage plugin.
+The SQLite plugin has to be registered into the MainActivity as well, this applies for the Android project and not IOS.
+HTTPClient is used to download some mockup data for testing (registered in app.modules.ts).
