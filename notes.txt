@@ -5,3 +5,6 @@ Some important notices
 - The ionic cap add ios and ionic cap add android commands did not recognize the capacitor.config.ts configuration, so a JSON file is created instead.
 The .ts file is keeped for reference purposes.
 - The NPM package @capacitor-community/sqlite is used to work with SQLite.
+- After initializing the project, I had to execute npm install @capacitor/ios and npm install @capacitor/android to create the appropiate IOS and Android projects.
+This project is based on https://devdactic.com/sqlite-ionic-app-with-capacitor.
+To turn off the opt-out telemetry program: npx cap telemetry off
