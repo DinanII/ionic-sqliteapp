@@ -1,5 +1,5 @@
 {
-  "database": "product-db",
+  "database": "products-db",
   "version": 1,
   "encrypted": false,
   "mode": "full",
