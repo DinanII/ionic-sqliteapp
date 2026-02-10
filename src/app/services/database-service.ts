@@ -11,7 +11,7 @@ import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
   providedIn: 'root',
 })
 export class DatabaseService {
-  private readonly DB_SETUP_KEY = 'first_db_setup';
+  // private readonly DB_SETUP_KEY = 'first_db_setup';
   private readonly DB_NAME_KEY = 'db_name';
   private readonly DB_NAME = 'products-db';
 
@@ -69,22 +69,23 @@ export class DatabaseService {
   private async setupDatabase(): Promise<void> {
     console.log("Checking database...")
 
-    let setupDone, storedName
+    //let setupDone,
+    let storedName
     let setup = false
     try {
-      setupDone = await SecureStoragePlugin.get({
-        key: this.DB_SETUP_KEY,
-      });
+      // setupDone = await SecureStoragePlugin.get({
+      //   key: this.DB_SETUP_KEY,
+      // });
       storedName = await SecureStoragePlugin.get({
         key: this.DB_NAME_KEY,
       });
       setup = true
     }
     catch (error) {
-      console.log(`DB seems not to exist`)
+      console.log(`DB does not seem to exist ${error}`)
     }
 
-    console.log(`setupDone: ${setupDone}, storedName: ${storedName}`);
+    console.log(`setupDone: (does not exist anymore, so undefined), storedName: ${storedName}`);
     if (!setup) {
       await this.downloadAndCreateDatabase();
     }
@@ -154,10 +155,10 @@ private async downloadAndCreateDatabase(): Promise<void> {
               value: this.dbName,
             });
 
-            await SecureStoragePlugin.set({
-              key: this.DB_SETUP_KEY,
-              value: '1',
-            });
+            // await SecureStoragePlugin.set({
+            //   key: this.DB_SETUP_KEY,
+            //   value: '1',
+            // });
 
             // Open database
             await CapacitorSQLite.open({
@@ -273,7 +274,7 @@ private async downloadAndCreateDatabase(): Promise<void> {
     this.dbName = null;
 
     await SecureStoragePlugin.set({ key: this.DB_NAME_KEY, value: '' });
-    await SecureStoragePlugin.set({ key: this.DB_SETUP_KEY, value: '' });
+    // await SecureStoragePlugin.set({ key: this.DB_SETUP_KEY, value: '' });
   }
 
   // #endregion
