@@ -11,6 +11,8 @@ The default UI components from Ionic where used to build the UI.
 - [Ionic framework website](https://ionicframework.com)
 - [Main Ionic website](https://ionic.io)
 - [Capacitor website](https://capacitorjs.com)
+- [Community SQLite plugin](https://github.com/capacitor-community/sqlite)
+- [Angular](https://angular.dev)
 
 **Some notices**
 
@@ -23,7 +25,13 @@ It's components adjust to the native components on IOS and Android, so apps have
 The Ionic framework utilizes Capacitor. Cordova was used in ealier versions of ionic and is consideren legacy now.
 
 
-- Ionic identifier itself as a platform for building and shipping mobile applications.
+- Ionic identifies itself as a platform for building and shipping mobile applications.
+
+
+- The Community SQLite plugin for capacitor is a community-maintained plugin brining SQLite support to Ionic applications.
+
+
+- Angular is a web framework to build frontends.
 
 
 - The Angular project in this Ionic application uses standalone components.
