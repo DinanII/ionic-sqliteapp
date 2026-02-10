@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content>
-
+  <!-- Input section for new product name -->
   <ion-item>
     <ion-input [(ngModel)]="newProduct" ></ion-input>
   </ion-item>
@@ -16,7 +16,7 @@
   (click)="addProduct()">
   Add dummy product
 </ion-button>
-
+  <!-- All Products -->
     <ion-list>
       @for (p of products; track $index) {
       <ion-item-sliding>
@@ -32,12 +32,13 @@
       </ion-item-sliding>
       }
     </ion-list>
-
+  <!-- Database export -->
   <ion-button expand="full" (click)="createExport('full')">Create Full JSON Export</ion-button>
   <ion-button expand="full" (click)="createExport('partial')">Create Partial JSON Export</ion-button>
   <ion-button expand="full" (click)="deleteDatabase()" color="danger">Delete Database</ion-button>
 
   @if(export) {
+    <!-- Here gets the JSON dumped if the DB is exported -->
   <ion-card>
     <ion-card-content>
       {{ export | json}}

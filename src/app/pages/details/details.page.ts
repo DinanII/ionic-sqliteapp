@@ -29,8 +29,10 @@ export class DetailsPage implements OnInit {
   constructor() {}
 
   async ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-
+    // Obtains the product id from the route and converts it to a number.
+    // If an invalid number is submitted, it will be NaN
+    const id: number = Number(this.route.snapshot.paramMap.get('id'));
+    // Checks if the id is numeric or NaN
     if (!isNaN(id))
       this.product = await this.databaseService.getProductById(id);
   }

@@ -12,7 +12,7 @@ import {filter, take} from 'rxjs';
   templateUrl: 'app.component.html',
   imports: [IonApp, IonRouterOutlet],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   private databaseService = inject(DatabaseService);
   private platform = inject(Platform);
@@ -23,18 +23,12 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
 
-  ngOnInit() {
-    console.log('ngOnInit');
-  }
+
   async initializeApp() {
     console.log('Starting app initialization...');
 
     await this.platform.ready();
     console.log('Platform ready');
-
-    // const loading = await this.loadingCtrl.create();
-    // await loading.present();
-    // console.log('Loading spinner shown');
 
     try {
       console.log('About to call databaseService.init()...');
@@ -55,14 +49,12 @@ export class AppComponent implements OnInit {
       });
 
       console.log('Dismissing loading...');
-      //await loading.dismiss();
       await StatusBar.setStyle({ style: Style.Default });
       await SplashScreen.hide();
       console.log('App initialization complete');
 
     } catch (error) {
       console.error('App initialization failed:', error);
-      // await loading.dismiss();
     }
   }
 }

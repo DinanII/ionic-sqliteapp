@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { DatabaseService } from '../services/database-service';
+import { DatabaseService } from '../../services/database-service';
 import { JsonSQLite } from '@capacitor-community/sqlite';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonButton, IonList, IonItemSliding, IonLabel, IonItemOption, IonItemOptions, IonCard, IonCardContent } from "@ionic/angular/standalone";
 import { JsonPipe } from '@angular/common';
