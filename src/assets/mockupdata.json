@@ -10,8 +10,8 @@
         { "column": "id", "value": "INTEGER PRIMARY KEY NOT NULL" },
         { "column": "company_name", "value": "TEXT NOT NULL" },
         { "column": "company_info", "value": "TEXT NOT NULL" },
-        { "column": "last_modified", "value": "INTEGER DEFAULT (strftime('%s', 'now'))" }
-        
+        { "column": "last_modified", "value": "INTEGER DEFAULT (strftime('%s', 'now'))" },
+        { "column": "sql_deleted","value:":"BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))"}
       ],
       "values": [
         [1, "Devdactic", "The main blog of Simon Grimm", 1587310030],
@@ -28,6 +28,7 @@
         { "column": "value", "value": "INTEGER" },
         { "column": "vendorid", "value": "INTEGER" },
         { "column": "last_modified", "value": "INTEGER DEFAULT (strftime('%s', 'now'))" },
+        { "column": "sql_deleted","value:":"BOOLEAN DEFAULT 0 CHECK (sql_deleted IN (0, 1))"},
         {
           "foreignkey": "vendorid",
           "value": "REFERENCES vendors(id)"
