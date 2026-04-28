@@ -11,12 +11,12 @@
         { "column": "company_name", "value": "TEXT NOT NULL" },
         { "column": "company_info", "value": "TEXT NOT NULL" },
         { "column": "last_modified", "value": "INTEGER DEFAULT (strftime('%s', 'now'))" },
-        { "column": "sql_deleted","value:":"INTEGER NOT NULL DEFAULT 0 CHECK (sql_deleted IN (0, 1))"}
+        { "column": "sql_deleted","value":"INTEGER NOT NULL DEFAULT 0 CHECK (sql_deleted IN (0, 1))"}
       ],
       "values": [
-        [1, "Devdactic", "The main blog of Simon Grimm", 1587310030],
-        [2, "Ionic Academy", "The online school to learn Ionic", 1590388125],
-        [3, "Ionic Company", "Your favourite cross platform framework", 1590383895]
+        [1, "Devdactic", "The main blog of Simon Grimm", 1587310030,0],
+        [2, "Ionic Academy", "The online school to learn Ionic", 1590388125,0],
+        [3, "Ionic Company", "Your favourite cross platform framework", 1590383895,0]
       ]
     },
     {
@@ -26,19 +26,15 @@
         { "column": "name", "value": "TEXT NOT NULL" },
         { "column": "currency", "value": "TEXT" },
         { "column": "value", "value": "INTEGER" },
-        { "column": "vendorid", "value": "INTEGER" },
+        { "column": "vendorid", "value": "INTEGER REFERENCES vendors(id)" },
         { "column": "last_modified", "value": "INTEGER DEFAULT (strftime('%s', 'now'))" },
-        { "column": "sql_deleted","value:":"INTEGER NOT NULL DEFAULT 0 CHECK (sql_deleted IN (0, 1))"},
-        {
-          "foreignkey": "vendorid",
-          "value": "REFERENCES vendors(id)"
-        }
+        { "column": "sql_deleted","value":"INTEGER NOT NULL DEFAULT 0 CHECK (sql_deleted IN (0, 1))"}
       ],
       "values": [
-        [1, "Devdactic Fan Hat", "EUR", 9, 1, 1604396241],
-        [2, "Ionic Academy Membership", "USD", 25, 2, 1604296241],
-        [3, "Ionic Sticker Swag", "USD", 4, 3, 1594196241],
-        [4, "Practical Ionic Book", "USD", 79, 1, 1603396241]
+        [1, "Devdactic Fan Hat", "EUR", 9, 1, 1604396241, 0],
+        [2, "Ionic Academy Membership", "USD", 25, 2, 1604296241, 0],
+        [3, "Ionic Sticker Swag", "USD", 4, 3, 1594196241, 0],
+        [4, "Practical Ionic Book", "USD", 79, 1, 1603396241, 0]
       ]
     }
   ]
