@@ -12,12 +12,6 @@ import { SecureStoragePlugin } from 'capacitor-secure-storage-plugin';
 })
 export class DatabaseService {
 
-  /**
-   * Used initially as a key for the Capacitor SecureStorage plugin, to check if the database was initialized or not,
-   * based on its value. The DB_NAME_KEY replaces that.
-   * @private
-   */
-   //private readonly DB_SETUP_KEY = 'first_db_setup';
 
   /**
    * What the key is named where the database name is stored under in the SecureStorage Plugin
@@ -119,10 +113,8 @@ export class DatabaseService {
   private async setupDatabase(): Promise<void> {
     console.log("Checking database...")
 
-    //let setupDone,
     let storedName
     let setup: boolean = false
-    // SecureStoragePlugin returns an error when a key does not exist
     try {
       // setupDone = await SecureStoragePlugin.get({
       //   key: this.DB_SETUP_KEY,
@@ -136,7 +128,7 @@ export class DatabaseService {
       console.log(`DB does not seem to exist ${error}`)
     }
 
-    console.log(`setupDone: (does not exist anymore, so undefined), storedName: ${storedName}`);
+    console.log(`setupDone: (does not exist anymore, so undefined), storedName:`,storedName);
     if (!setup) {
       await this.downloadAndCreateDatabase();
     }
@@ -199,11 +191,13 @@ export class DatabaseService {
             const jsonstring = JSON.stringify(response.body);
             console.log(`Downloaded JSON Database ${jsonstring}`);
             const valid = await CapacitorSQLite.isJsonValid({ jsonstring });
+            
             if (!valid.result) {
               console.error(`Retrieved JSON data for DB import is invalid: ${JSON.stringify(jsonstring)}`);
               reject(new Error('Invalid database JSON'));
               return;
             }
+
 
             // Create connection
             await CapacitorSQLite.createConnection({
@@ -220,11 +214,6 @@ export class DatabaseService {
               key: this.DB_NAME_KEY,
               value: this.DB_NAME,
             });
-
-            // await SecureStoragePlugin.set({
-            //   key: this.DB_SETUP_KEY,
-            //   value: '1',
-            // });
 
             // Open database
             await CapacitorSQLite.open({
@@ -246,7 +235,7 @@ export class DatabaseService {
         },
         error: (error: Error) => {
           console.error('Failed to fetch JSON import file', error);
-          reject(error); // ← Now properly rejects!
+          reject(error); // Now properly rejects!
         },
       });
   });
