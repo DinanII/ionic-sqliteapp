@@ -128,10 +128,24 @@ export class DatabaseService {
       console.log(`DB does not seem to exist ${error}`)
     }
 
-    console.log(`setupDone: (does not exist anymore, so undefined), storedName:`,storedName);
+    console.log(`setupDone: (does not exist anymore, so undefined), storedName:`, storedName);
     if (!setup) {
-      await this.downloadAndCreateDatabase();
-    }
+      this.downloadAndCreateDatabase()
+        .catch(async (reason) => {
+          console.error(`Database could not be initialized:`, reason);
+
+          const alert = await this.alertCtrl.create({
+            header: 'Database error',
+            message: 'This app cannot run without database access.',
+            buttons: ['OK'],
+          });
+          await alert.present();
+        })
+        .then((createDbFulfilled) => {
+          console.log("Database has been created",createDbFulfilled)
+        })
+      
+      }
     else {
       await this.openDatabase();
     }
@@ -143,7 +157,7 @@ export class DatabaseService {
    * @private
    */
   private async openDatabase(): Promise<void> {
-    if(!this.dbReady$) {
+    if (!this.dbReady$) {
       console.log("Opening database...");
       await CapacitorSQLite.createConnection({
         database: this.database,
@@ -182,64 +196,64 @@ export class DatabaseService {
    * @private
    */
   private async downloadAndCreateDatabase(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    this.http
-      .get('assets/mockupdata.json', { observe: 'response' })
-      .subscribe({
-        next: async (response: HttpResponse<any>) => {
-          try {
-            const jsonstring = JSON.stringify(response.body);
-            console.log(`Downloaded JSON Database ${jsonstring}`);
-            const valid = await CapacitorSQLite.isJsonValid({ jsonstring });
-            
-            if (!valid.result) {
-              console.error(`Retrieved JSON data for DB import is invalid: ${JSON.stringify(jsonstring)}`);
-              reject(new Error('Invalid database JSON'));
-              return;
+    return new Promise((resolve, reject) => {
+      this.http
+        .get('assets/mockupdata.json', { observe: 'response' })
+        .subscribe({
+          next: async (response: HttpResponse<any>) => {
+            try {
+              const jsonstring = JSON.stringify(response.body);
+              console.log(`Downloaded JSON Database ${jsonstring}`);
+              const valid = await CapacitorSQLite.isJsonValid({ jsonstring });
+
+              if (!valid.result) {
+                console.error(`Retrieved JSON data for DB import is invalid: ${JSON.stringify(jsonstring)}`);
+                reject(new Error('Invalid database JSON'));
+                return;
+              }
+
+
+              // Create connection
+              await CapacitorSQLite.createConnection({
+                database: this.database,
+              });
+
+              // Import JSON
+              await CapacitorSQLite.importFromJson({
+                jsonstring,
+              });
+
+              // Save to secure storage
+              await SecureStoragePlugin.set({
+                key: this.DB_NAME_KEY,
+                value: this.DB_NAME,
+              });
+
+              // Open database
+              await CapacitorSQLite.open({
+                database: this.database
+              });
+
+              // Create sync table (with database parameter)
+              await CapacitorSQLite.createSyncTable({
+                database: this.database
+              });
+
+
+              this.dbReadySubject.next(true);
+              resolve();
+            } catch (err) {
+              console.error('Error during database creation:', err);
+              reject(err);
             }
-
-
-            // Create connection
-            await CapacitorSQLite.createConnection({
-              database: this.database,
-            });
-
-            // Import JSON
-            await CapacitorSQLite.importFromJson({
-              jsonstring,
-            });
-
-            // Save to secure storage
-            await SecureStoragePlugin.set({
-              key: this.DB_NAME_KEY,
-              value: this.DB_NAME,
-            });
-
-            // Open database
-            await CapacitorSQLite.open({
-              database: this.database
-            });
-
-            // Create sync table (with database parameter)
-            await CapacitorSQLite.createSyncTable({
-              database: this.database
-            });
-
-
-            this.dbReadySubject.next(true);
-            resolve();
-          } catch (err) {
-            console.error('Error during database creation:', err);
-            reject(err);
-          }
-        },
-        error: (error: Error) => {
-          console.error('Failed to fetch JSON import file', error);
-          reject(error); // Now properly rejects!
-        },
-      });
-  });
-}
+          },
+          error: (error: Error) => {
+            console.error('Failed to fetch JSON import file', error);
+            reject(error); // Now properly rejects!
+          },
+        });
+    });
+  }
 
   // #endregion
 
